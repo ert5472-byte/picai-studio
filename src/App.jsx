@@ -4,26 +4,26 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "./styles.css";
 
 const FILTERS = [
-  ["Clean", "源⑤걮?섍쾶", "brightness(1.05) contrast(1.04) saturate(1.02)"],
-  ["Portrait", "?몃Ъ", "brightness(1.06) contrast(.96) saturate(.94) sepia(.04)"],
-  ["Vivid", "?좊챸???띻꼍", "contrast(1.12) saturate(1.28)"],
-  ["Film", "?꾨쫫", "contrast(.94) saturate(.82) sepia(.16)"],
-  ["Cinema", "?쒕꽕留?, "contrast(1.18) saturate(.86) hue-rotate(-8deg)"],
-  ["Golden", "怨⑤뱺?꾩썙", "brightness(1.05) saturate(1.14) sepia(.2)"],
-  ["Mono", "?묐갚", "grayscale(1) contrast(1.12)"],
-  ["Matte", "留ㅽ듃", "contrast(.86) brightness(1.05) saturate(.88)"],
-  ["Night", "?쇨꼍", "brightness(.9) contrast(1.2) saturate(1.18) hue-rotate(5deg)"],
-  ["Food", "?뚯떇", "brightness(1.03) contrast(1.06) saturate(1.2) sepia(.08)"],
-  ["Pastel", "?뚯뒪??, "brightness(1.09) contrast(.86) saturate(.84)"],
-  ["Moody", "臾대뵒", "brightness(.84) contrast(1.18) saturate(.78)"],
-  ["Travel", "?ы뻾", "brightness(1.04) contrast(1.06) saturate(1.16)"],
-  ["Skin", "?쇰? ??, "brightness(1.04) contrast(.96) saturate(.92) sepia(.08)"],
-  ["Air", "留묒? 怨듦린", "brightness(1.08) contrast(1.02) saturate(.9)"],
-  ["Ocean", "諛붾떎", "contrast(1.07) saturate(1.2) hue-rotate(8deg)"],
-  ["Autumn", "媛??, "contrast(1.05) saturate(1.12) sepia(.25)"],
-  ["Cafe", "移댄럹", "brightness(.98) contrast(1.05) sepia(.2)"],
-  ["Dream", "?쒕┝", "brightness(1.08) contrast(.86) saturate(1.08)"],
-  ["Documentary", "?ㅽ걧", "contrast(1.1) saturate(.72)"],
+  ["Clean", "깨끗하게", "brightness(1.05) contrast(1.04) saturate(1.02)"],
+  ["Portrait", "인물", "brightness(1.06) contrast(.96) saturate(.94) sepia(.04)"],
+  ["Vivid", "선명한 풍경", "contrast(1.12) saturate(1.28)"],
+  ["Film", "필름", "contrast(.94) saturate(.82) sepia(.16)"],
+  ["Cinema", "시네마", "contrast(1.18) saturate(.86) hue-rotate(-8deg)"],
+  ["Golden", "골든아워", "brightness(1.05) saturate(1.14) sepia(.2)"],
+  ["Mono", "흑백", "grayscale(1) contrast(1.12)"],
+  ["Matte", "매트", "contrast(.86) brightness(1.05) saturate(.88)"],
+  ["Night", "야경", "brightness(.9) contrast(1.2) saturate(1.18) hue-rotate(5deg)"],
+  ["Food", "음식", "brightness(1.03) contrast(1.06) saturate(1.2) sepia(.08)"],
+  ["Pastel", "파스텔", "brightness(1.09) contrast(.86) saturate(.84)"],
+  ["Moody", "무디", "brightness(.84) contrast(1.18) saturate(.78)"],
+  ["Travel", "여행", "brightness(1.04) contrast(1.06) saturate(1.16)"],
+  ["Skin", "피부 톤", "brightness(1.04) contrast(.96) saturate(.92) sepia(.08)"],
+  ["Air", "맑은 공기", "brightness(1.08) contrast(1.02) saturate(.9)"],
+  ["Ocean", "바다", "contrast(1.07) saturate(1.2) hue-rotate(8deg)"],
+  ["Autumn", "가을", "contrast(1.05) saturate(1.12) sepia(.25)"],
+  ["Cafe", "카페", "brightness(.98) contrast(1.05) sepia(.2)"],
+  ["Dream", "드림", "brightness(1.08) contrast(.86) saturate(1.08)"],
+  ["Documentary", "다큐", "contrast(1.1) saturate(.72)"],
 ];
 
 const DEFAULTS = { exposure: 0, contrast: 0, saturation: 0, warmth: 0, highlights: 0, shadows: 0 };
@@ -59,7 +59,7 @@ export default function Editor() {
   const [history, setHistory] = useState([]);
   const [future, setFuture] = useState([]);
   const [batchProgress, setBatchProgress] = useState(null);
-  const [toast, setToast] = useState("?ъ쭊??遺덈윭?ㅻ㈃ 諛붾줈 ?몄쭛?????덉뼱??");
+  const [toast, setToast] = useState("사진을 불러오면 바로 편집할 수 있어요.");
   const fileRef = useRef(null);
   const longPressRef = useRef(null);
 
@@ -93,7 +93,7 @@ export default function Editor() {
     setPhotos((old) => [...old, ...next]);
     setActiveId((id) => id || next[0].id);
     setSelected((old) => [...new Set([...old, ...next.map((p) => p.id)])]);
-    setToast(`${next.length}?μ쓽 ?ъ쭊??媛?몄솕?듬땲??`);
+    setToast(`${next.length}장의 사진을 가져왔습니다.`);
   }, []);
 
   useEffect(() => () => photos.forEach((p) => URL.revokeObjectURL(p.url)), []);
@@ -121,7 +121,7 @@ export default function Editor() {
     commit(() => {
       setAdjust({ exposure: 8, contrast: 7, saturation: 8, warmth: 3, highlights: -8, shadows: 12 });
       setFilter("Clean");
-      setToast("?ъ쭊??遺꾩꽍???먯뿰?ㅻ읇寃?蹂댁젙?덉뒿?덈떎.");
+      setToast("사진을 분석해 자연스럽게 보정했습니다.");
     });
   }
 
@@ -159,7 +159,7 @@ export default function Editor() {
     }
     setPhotos((ps) => ps.map((p) => targets.includes(p.id) ? { ...p, edits } : p));
     setTimeout(() => setBatchProgress(null), 900);
-    setToast(`${targets.length}?μ뿉 媛숈? 蹂댁젙???곸슜?덉뒿?덈떎.`);
+    setToast(`${targets.length}장에 같은 보정을 적용했습니다.`);
   }
 
   function download() {
@@ -201,46 +201,46 @@ export default function Editor() {
   const panel = (
     <div className="control-content">
       {tool === "basic" && <>
-        <button className="auto-card" onClick={applyAuto}><span className="spark">??/span><span><strong>AI ?먮룞 蹂댁젙</strong><small>諛앷린쨌?鍮꽷룹깋媛먯쓣 ??踰덉뿉</small></span><span>?ㅽ뻾</span></button>
+        <button className="auto-card" onClick={applyAuto}><span className="spark">✦</span><span><strong>AI 자동 보정</strong><small>밝기·대비·색감을 한 번에</small></span><span>실행</span></button>
         <div className="quick-grid">
-          <button onClick={() => changeAdjust("exposure", 12)}>? 諛앷쾶</button>
-          <button onClick={() => changeAdjust("warmth", 18)}>???곕쑜?섍쾶</button>
-          <button onClick={() => changeAdjust("saturation", 15)}>???좊챸?섍쾶</button>
-          <button onClick={() => setAdjust(DEFAULTS)}>??湲곕낯媛?/button>
+          <button onClick={() => changeAdjust("exposure", 12)}>☀ 밝게</button>
+          <button onClick={() => changeAdjust("warmth", 18)}>♨ 따뜻하게</button>
+          <button onClick={() => changeAdjust("saturation", 15)}>◉ 선명하게</button>
+          <button onClick={() => setAdjust(DEFAULTS)}>↺ 기본값</button>
         </div>
-        <section><h3>鍮?/h3>
-          <Slider label="?몄텧" value={adjust.exposure} onChange={(v) => changeAdjust("exposure", v)} />
-          <Slider label="?鍮? value={adjust.contrast} onChange={(v) => changeAdjust("contrast", v)} />
-          <Slider label="?섏씠?쇱씠?? value={adjust.highlights} onChange={(v) => changeAdjust("highlights", v)} />
-          <Slider label="洹몃┝?? value={adjust.shadows} onChange={(v) => changeAdjust("shadows", v)} />
+        <section><h3>빛</h3>
+          <Slider label="노출" value={adjust.exposure} onChange={(v) => changeAdjust("exposure", v)} />
+          <Slider label="대비" value={adjust.contrast} onChange={(v) => changeAdjust("contrast", v)} />
+          <Slider label="하이라이트" value={adjust.highlights} onChange={(v) => changeAdjust("highlights", v)} />
+          <Slider label="그림자" value={adjust.shadows} onChange={(v) => changeAdjust("shadows", v)} />
         </section>
-        <section><h3>?됱긽</h3>
-          <Slider label="梨꾨룄" value={adjust.saturation} onChange={(v) => changeAdjust("saturation", v)} />
-          <Slider label="?⑤룄" value={adjust.warmth} onChange={(v) => changeAdjust("warmth", v)} />
+        <section><h3>색상</h3>
+          <Slider label="채도" value={adjust.saturation} onChange={(v) => changeAdjust("saturation", v)} />
+          <Slider label="온도" value={adjust.warmth} onChange={(v) => changeAdjust("warmth", v)} />
         </section>
       </>}
       {tool === "transform" && <>
-        <section><h3>?뚯쟾怨?諛섏쟾</h3><p className="hint">?뚯쟾 ?꾩뿉???ъ쭊 ?꾩껜媛 ?꾨젅???덉뿉 ?좎??⑸땲??</p>
+        <section><h3>회전과 반전</h3><p className="hint">회전 후에도 사진 전체가 프레임 안에 유지됩니다.</p>
           <div className="action-grid">
-            <button onClick={() => rotate(-90)}>???쇱そ 90째</button>
-            <button onClick={() => rotate(90)}>???ㅻⅨ履?90째</button>
-            <button onClick={() => commit(() => setFlipX((v) => !v))}>??醫뚯슦 諛섏쟾</button>
-            <button onClick={() => { setRotation(0); setFlipX(false); }}>??珥덇린??/button>
+            <button onClick={() => rotate(-90)}>↶ 왼쪽 90°</button>
+            <button onClick={() => rotate(90)}>↷ 오른쪽 90°</button>
+            <button onClick={() => commit(() => setFlipX((v) => !v))}>↔ 좌우 반전</button>
+            <button onClick={() => { setRotation(0); setFlipX(false); }}>↺ 초기화</button>
           </div>
         </section>
-        <section><h3>?뺣? 諛?異뺤냼</h3>
-          <Slider label="諛곗쑉" min={25} max={300} value={Math.round(zoom * 100)} onChange={(v) => setZoom(v / 100)} />
-          <div className="action-grid"><button onClick={() => setZoom(1)}>100%</button><button onClick={() => { setZoom(1); setFitMode("contain"); }}>?붾㈃ 留욎땄</button></div>
+        <section><h3>확대 및 축소</h3>
+          <Slider label="배율" min={25} max={300} value={Math.round(zoom * 100)} onChange={(v) => setZoom(v / 100)} />
+          <div className="action-grid"><button onClick={() => setZoom(1)}>100%</button><button onClick={() => { setZoom(1); setFitMode("contain"); }}>화면 맞춤</button></div>
         </section>
-        <section><h3>?먮Ⅴ湲?/h3><p className="hint">?ъ쭊???섏씠嫄곕굹 蹂?뺥븯吏 ?딄퀬 以묒븰 湲곗??쇰줈 ?덉쟾?섍쾶 ?먮쫭?덈떎.</p>
-          <div className="ratio-row">{["original","1:1","4:5","16:9"].map((ratio) => <button className={cropRatio === ratio ? "active" : ""} key={ratio} onClick={() => commit(() => setCropRatio(ratio))}>{ratio === "original" ? "?먮낯" : ratio}</button>)}</div>
+        <section><h3>자르기</h3><p className="hint">사진을 늘이거나 변형하지 않고 중앙 기준으로 안전하게 자릅니다.</p>
+          <div className="ratio-row">{["original","1:1","4:5","16:9"].map((ratio) => <button className={cropRatio === ratio ? "active" : ""} key={ratio} onClick={() => commit(() => setCropRatio(ratio))}>{ratio === "original" ? "원본" : ratio}</button>)}</div>
         </section>
       </>}
       {tool === "curve" && <CurvePanel />}
       {tool === "batch" && <>
-        <section><h3>?쇨큵 蹂댁젙</h3><p className="hint">?좏깮???ъ쭊???꾩옱 ?꾨━?뗪낵 ?됱긽 蹂댁젙???곸슜?⑸땲?? ?뚯쟾怨??먮Ⅴ湲곕뒗 ?ъ쭊留덈떎 ?щ씪 ?쒖쇅?⑸땲??</p>
-          <div className="batch-summary"><strong>{selected.length || photos.length}???좏깮??/strong><span>?꾨━??쨌 ??쨌 ?됱긽</span></div>
-          <button className="primary wide" onClick={batchApply} disabled={!photos.length}>?좏깮 ?ъ쭊??蹂댁젙 ?곸슜</button>
+        <section><h3>일괄 보정</h3><p className="hint">선택한 사진에 현재 프리셋과 색상 보정을 적용합니다. 회전과 자르기는 사진마다 달라 제외됩니다.</p>
+          <div className="batch-summary"><strong>{selected.length || photos.length}장 선택됨</strong><span>프리셋 · 톤 · 색상</span></div>
+          <button className="primary wide" onClick={batchApply} disabled={!photos.length}>선택 사진에 보정 적용</button>
           {batchProgress && <div className="progress"><span style={{ width: `${batchProgress.done / batchProgress.total * 100}%` }} /><em>{batchProgress.done} / {batchProgress.total}</em></div>}
         </section>
       </>}
@@ -250,45 +250,45 @@ export default function Editor() {
   return (
     <main className="app-shell">
       <header className="topbar">
-        <div className="brand"><div className="brandmark">P</div><div><strong>PicAI Studio</strong><small>鍮좊Ⅴ怨??뺥솗???ъ쭊 ?몄쭛</small></div></div>
-        <nav className="mode-tabs"><button className="active">?몄쭛</button><button>?쇱씠釉뚮윭由?<b>{photos.length}</b></button></nav>
+        <div className="brand"><div className="brandmark">P</div><div><strong>PicAI Studio</strong><small>빠르고 정확한 사진 편집</small></div></div>
+        <nav className="mode-tabs"><button className="active">편집</button><button>라이브러리 <b>{photos.length}</b></button></nav>
         <div className="top-actions">
-          <button aria-label="?ㅽ뻾 痍⑥냼" disabled={!history.length} onClick={undo}>??/button>
-          <button aria-label="?ㅼ떆 ?ㅽ뻾" disabled={!future.length} onClick={redo}>??/button>
-          <button className="ghost" onClick={() => { setAdjust(DEFAULTS); setFilter(null); setRotation(0); setZoom(1); }}>珥덇린??/button>
-          <button className="primary" onClick={download} disabled={!active}>?대낫?닿린</button>
+          <button aria-label="실행 취소" disabled={!history.length} onClick={undo}>↶</button>
+          <button aria-label="다시 실행" disabled={!future.length} onClick={redo}>↷</button>
+          <button className="ghost" onClick={() => { setAdjust(DEFAULTS); setFilter(null); setRotation(0); setZoom(1); }}>초기화</button>
+          <button className="primary" onClick={download} disabled={!active}>내보내기</button>
         </div>
       </header>
 
       <div className="workspace">
         <aside className="library-panel">
-          <div className="panel-title"><span>?ъ쭊</span><button onClick={() => fileRef.current?.click()}>竊?媛?몄삤湲?/button></div>
+          <div className="panel-title"><span>사진</span><button onClick={() => fileRef.current?.click()}>＋ 가져오기</button></div>
           <input ref={fileRef} hidden type="file" multiple accept="image/*" onChange={(e) => importFiles(e.target.files)} />
           {!photos.length ? <button className="dropzone" onClick={() => fileRef.current?.click()} onDragOver={(e) => e.preventDefault()} onDrop={(e) => { e.preventDefault(); importFiles(e.dataTransfer.files); }}>
-            <Icon>??/Icon><strong>?ъ쭊 媛?몄삤湲?/strong><small>JPG, PNG, WEBP</small><small>100???댁긽 ?좏깮 媛??/small>
+            <Icon>↑</Icon><strong>사진 가져오기</strong><small>JPG, PNG, WEBP</small><small>100장 이상 선택 가능</small>
           </button> :
           <div className="photo-list">
-            <div className="selection-tools"><span>{selected.length}???좏깮</span><button onClick={() => setSelected(photos.map((p) => p.id))}>?꾩껜</button></div>
+            <div className="selection-tools"><span>{selected.length}장 선택</span><button onClick={() => setSelected(photos.map((p) => p.id))}>전체</button></div>
             {photos.map((photo) => <button key={photo.id} className={`photo-item ${photo.id === activeId ? "active" : ""} ${selected.includes(photo.id) ? "selected" : ""}`} onClick={(e) => selectPhoto(photo, e)}>
-              <img src={photo.url} alt="" /><span><strong>{photo.name}</strong><small>{(photo.size / 1024 / 1024).toFixed(1)} MB</small></span><i>{selected.includes(photo.id) ? "?? : ""}</i>
+              <img src={photo.url} alt="" /><span><strong>{photo.name}</strong><small>{(photo.size / 1024 / 1024).toFixed(1)} MB</small></span><i>{selected.includes(photo.id) ? "✓" : ""}</i>
             </button>)}
           </div>}
-          <div className="storage-note"><span>??/span><p><strong>濡쒖뺄?먯꽌 ?덉쟾?섍쾶</strong><small>?ъ쭊? ?쒕쾭濡??꾩넚?섏? ?딆뒿?덈떎.</small></p></div>
+          <div className="storage-note"><span>⚡</span><p><strong>로컬에서 안전하게</strong><small>사진은 서버로 전송되지 않습니다.</small></p></div>
         </aside>
 
         <section className="stage">
           <div className="canvas-toolbar">
-            <span>{active ? active.name : "?몄쭛???ъ쭊???좏깮?섏꽭??}</span>
-            <div><button onClick={() => setZoom((z) => Math.max(.25, z - .25))}>??/button><output>{Math.round(zoom * 100)}%</output><button onClick={() => setZoom((z) => Math.min(3, z + .25))}>竊?/button><button onClick={() => { setZoom(1); setFitMode("contain"); }}>留욎땄</button></div>
+            <span>{active ? active.name : "편집할 사진을 선택하세요"}</span>
+            <div><button onClick={() => setZoom((z) => Math.max(.25, z - .25))}>−</button><output>{Math.round(zoom * 100)}%</output><button onClick={() => setZoom((z) => Math.min(3, z + .25))}>＋</button><button onClick={() => { setZoom(1); setFitMode("contain"); }}>맞춤</button></div>
           </div>
           <div className="canvas-wrap" onWheel={(e) => { if (active) { e.preventDefault(); setZoom((z) => Math.min(3, Math.max(.25, z + (e.deltaY < 0 ? .1 : -.1)))); } }}>
             {active ? <div className={`image-frame crop-${cropRatio.replace(":","-")}`}><img className="editing-image" src={active.url} alt={active.name} style={{ filter: cssFilter, transform: `scale(${zoom}) rotate(${rotation}deg) scaleX(${flipX ? -1 : 1})`, objectFit: cropRatio === "original" ? fitMode : "cover" }} /></div> :
-            <div className="empty-state"><div className="empty-art"><span>??/span></div><h1>?ъ쭊????鍮좊Ⅴ怨??뺥솗?섍쾶</h1><p>?ъ쭊??媛?몄삤硫?AI ?먮룞 蹂댁젙遺???꾪꽣, ?뚯쟾, ?쇨큵 ?몄쭛源뚯? 諛붾줈 ?쒖옉?????덉뼱??</p><button className="primary large" onClick={() => fileRef.current?.click()}>?ъ쭊 媛?몄삤湲?/button><button className="sample-link" onClick={() => setToast("???ъ쭊???낅줈?쒗빐 ?몄쭛???쒖옉?대낫?몄슂.")}>?섑뵆濡??섎윭蹂닿린 ??/button></div>}
+            <div className="empty-state"><div className="empty-art"><span>✦</span></div><h1>사진을 더 빠르고 정확하게</h1><p>사진을 가져오면 AI 자동 보정부터 필터, 회전, 일괄 편집까지 바로 시작할 수 있어요.</p><button className="primary large" onClick={() => fileRef.current?.click()}>사진 가져오기</button><button className="sample-link" onClick={() => setToast("내 사진을 업로드해 편집을 시작해보세요.")}>샘플로 둘러보기 →</button></div>}
           </div>
           {active && <div className="filter-strip">
-            <div className="strip-head"><strong>?꾪꽣</strong><span>留덉슦?ㅻ? ?щ━嫄곕굹 湲멸쾶 ?뚮윭 誘몃━蹂닿린</span></div>
+            <div className="strip-head"><strong>필터</strong><span>마우스를 올리거나 길게 눌러 미리보기</span></div>
             <div className="filter-list">
-              <button className={!filter ? "active" : ""} onClick={() => commit(() => setFilter(null))}><span className="none-thumb">??/span><small>?먮낯</small></button>
+              <button className={!filter ? "active" : ""} onClick={() => commit(() => setFilter(null))}><span className="none-thumb">∅</span><small>원본</small></button>
               {FILTERS.map(([id, name, style]) => <button key={id} className={filter === id ? "active" : ""} onMouseEnter={() => setHoverFilter(id)} onMouseLeave={() => setHoverFilter(null)} onPointerDown={() => { longPressRef.current = setTimeout(() => setHoverFilter(id), 320); }} onPointerUp={() => { clearTimeout(longPressRef.current); setHoverFilter(null); }} onClick={() => commit(() => setFilter(id))}>
                 <img src={active.url} alt="" style={{ filter: style }} /><small>{name}</small>
               </button>)}
@@ -298,14 +298,14 @@ export default function Editor() {
 
         <aside className="control-panel">
           <div className="tool-tabs">
-            {[["basic", "??, "湲곕낯"], ["transform", "??, "蹂??], ["curve", "??, "而ㅻ툕"], ["batch", "??, "?쇨큵"]].map(([id, icon, label]) => <button key={id} className={tool === id ? "active" : ""} onClick={() => setTool(id)}><b>{icon}</b><span>{label}</span></button>)}
+            {[["basic", "☼", "기본"], ["transform", "⌗", "변형"], ["curve", "⌁", "커브"], ["batch", "▦", "일괄"]].map(([id, icon, label]) => <button key={id} className={tool === id ? "active" : ""} onClick={() => setTool(id)}><b>{icon}</b><span>{label}</span></button>)}
           </div>
           {panel}
         </aside>
       </div>
 
       <div className="mobile-stage-tabs">
-        {[["filters", "??, "?꾪꽣"], ["basic", "??, "蹂댁젙"], ["transform", "??, "蹂??], ["batch", "??, "?쇨큵"]].map(([id, icon, label]) => <button className={mobilePanel === id ? "active" : ""} key={id} onClick={() => { setMobilePanel(id); if (id !== "filters") setTool(id); }}><b>{icon}</b><span>{label}</span></button>)}
+        {[["filters", "◫", "필터"], ["basic", "☼", "보정"], ["transform", "⌗", "변형"], ["batch", "▦", "일괄"]].map(([id, icon, label]) => <button className={mobilePanel === id ? "active" : ""} key={id} onClick={() => { setMobilePanel(id); if (id !== "filters") setTool(id); }}><b>{icon}</b><span>{label}</span></button>)}
       </div>
       {active && mobilePanel !== "filters" && <div className="mobile-sheet">{panel}</div>}
       <div className="toast" role="status">{toast}</div>
@@ -324,12 +324,12 @@ function CurvePanel() {
     setPoints((p) => p.map((v, i) => i === drag ? [x, y] : v).sort((a, b) => a[0] - b[0]));
   }
   const path = points.map((p, i) => `${i ? "L" : "M"} ${p[0]} ${p[1]}`).join(" ");
-  return <section><h3>??而ㅻ툕</h3><p className="hint">?먯쓣 遺?쒕읇寃??쒕옒洹명빐 諛앷린? ?鍮꾨? 議곗젅?섏꽭??</p>
+  return <section><h3>톤 커브</h3><p className="hint">점을 부드럽게 드래그해 밝기와 대비를 조절하세요.</p>
     <svg className="curve" viewBox="0 0 100 100" preserveAspectRatio="none" onPointerMove={move} onPointerUp={() => setDrag(null)} onPointerLeave={() => setDrag(null)}>
       {[25, 50, 75].map((n) => <g key={n}><line x1={n} y1="0" x2={n} y2="100" /><line x1="0" y1={n} x2="100" y2={n} /></g>)}
       <path d={path} />
       {points.map(([x, y], i) => <circle key={i} cx={x} cy={y} r="3.5" onPointerDown={(e) => { e.currentTarget.setPointerCapture(e.pointerId); setDrag(i); }} />)}
     </svg>
-    <div className="curve-presets"><button onClick={() => setPoints([[0,100],[25,75],[50,50],[75,25],[100,0]])}>?좏삎</button><button onClick={() => setPoints([[0,100],[25,82],[50,50],[75,18],[100,0]])}>S 而ㅻ툕</button><button onClick={() => setPoints([[0,90],[30,72],[70,30],[100,8]])}>留ㅽ듃</button></div>
+    <div className="curve-presets"><button onClick={() => setPoints([[0,100],[25,75],[50,50],[75,25],[100,0]])}>선형</button><button onClick={() => setPoints([[0,100],[25,82],[50,50],[75,18],[100,0]])}>S 커브</button><button onClick={() => setPoints([[0,90],[30,72],[70,30],[100,8]])}>매트</button></div>
   </section>;
 }
